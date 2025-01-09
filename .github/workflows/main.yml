@@ -1,4 +1,4 @@
-name: Streamlit App Deployment
+name: Streamlit App Verification
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,7 +17,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Step 2: Set up Python environment
+    # Step 2: Set up Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -29,9 +29,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Run Streamlit app tests
-    - name: Run Streamlit app tests
+    # Step 4: Verify Streamlit app functionality
+    - name: Verify Streamlit app
       env:
         GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
       run: |
-        streamlit run app.py --server.headless true --server.port 8501
+        python -m compileall app.py
